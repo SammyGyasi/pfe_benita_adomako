@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from . import models
+from .models import Product, SupportImage
 
 
 class CustomerUserForm(forms.ModelForm):
@@ -16,10 +17,23 @@ class CustomerForm(forms.ModelForm):
         model=models.Customer
         fields=['address','mobile','profile_pic']
 
+
+
+
+
 class ProductForm(forms.ModelForm):
+    support_images = forms.ModelMultipleChoiceField(
+        queryset=SupportImage.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=False  # Set to True if support images are mandatory
+    )
+
     class Meta:
-        model=models.Product
-        fields=['name','price','description','product_image']
+        model = Product
+        fields = ['name', 'product_image', 'price', 'short_description','detailed_description','support_images']
+
+
+
 
 #address of shipment
 class AddressForm(forms.Form):

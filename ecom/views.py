@@ -7,6 +7,11 @@ from django.contrib.auth.decorators import login_required,user_passes_test
 from django.contrib import messages
 from django.conf import settings
 
+
+def test_func(request):
+    return render(request,'ecom/index22.html')
+    
+
 def home_view(request):
     products=models.Product.objects.all()
     if 'product_ids' in request.COOKIES:
@@ -18,6 +23,15 @@ def home_view(request):
     if request.user.is_authenticated:
         return HttpResponseRedirect('afterlogin')
     return render(request,'ecom/index.html',{'products':products,'product_count_in_cart':product_count_in_cart})
+
+# views.py
+from django.shortcuts import render, get_object_or_404
+from .models import Product
+
+def product_details(request, product_id):
+    product = get_object_or_404(Product, pk=product_id)
+    return render(request, 'ecom/product_details.html', {'product': product})
+
     
 
 

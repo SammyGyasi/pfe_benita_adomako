@@ -62,9 +62,7 @@
 </style>
 
 </head>
-<!--
-written By : sumit kumar
--->
+
 <br><br><br><br>
 
 <div class="container">
@@ -75,9 +73,9 @@ written By : sumit kumar
     <table class="table table-hover table-bordered" id="dev-table">
       <thead>
         <tr>
-          <th>Name</th>
+          <th>Destination Name </th>
           <th>Image</th>
-          <th>Price</th>
+          <th>Cost Of Visit</th>
           <th>Description</th>
           <th>Action</th>
 
@@ -97,7 +95,7 @@ written By : sumit kumar
       </tr>
       {%else%}
       <br><br><br>
-      <h1>no products</h1>
+      <h1>no destinations</h1>
       {% endif %}
       {% endfor %}
     </table>
@@ -106,7 +104,7 @@ written By : sumit kumar
 <br><br><br>
 <div style="text-align: center;">
   <button class="btn btn-danger btn-lg">Total ${{total}}</button>
-  <a href="/customer-address"><button class="btn btn-success btn-lg" ><span>Purchase </span></button></a>
+  <a href="/customer-address"><button class="btn btn-success btn-lg" ><span>Make payment </span></button></a>
 </div>
 
 

@@ -1,0 +1,74 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ product.name }} Details</title>
+    <!-- Include your CSS file here -->
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .main-image {
+            width: 100%;
+            height: 70vh; /* Set the height as per your preference */
+            object-fit: cover;
+        }
+
+        .product-details {
+            width: 80%;
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .product-description {
+            margin-top: 20px;
+            max-width: 80%;
+            text-align: justify;
+        }
+
+        .support-images {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .support-image {
+            margin: 10px;
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ product.name }} Details</h1>
+    <img class="main-image" src="{% static product.product_image.url %}" alt="product pic">
+
+    <div class="product-details">
+        <p class="product-description">{{ product.detailed_description }}</p>
+        <p>Price: ${{ product.price }}</p>
+        <a href="{% url 'add-to-cart' product.id %}" class="cart">
+            <span class="add-to-cart">
+                <span class="txt"><i class="fa fa-shopping-cart"></i> Add To Cart</span>
+            </span>
+        </a>
+    </div>
+
+    <div class="support-images">
+        {% for support_image in product.support_images.all %}
+            <img class="support-image" src="{% static support_image.url %}" alt="Support Image">
+        {% endfor %}
+    </div>
+
+    <!-- Include your JavaScript file here -->
+</body>
+</html>

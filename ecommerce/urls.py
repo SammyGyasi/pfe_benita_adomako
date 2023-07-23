@@ -1,17 +1,11 @@
-"""
 
-Developed By : sumit kumar
-facebook : fb.com/sumit.luv
-Youtube :youtube.com/lazycoders
-
-
-"""
 from django.contrib import admin
 from django.urls import path
 from ecom import views
 from django.contrib.auth.views import LoginView,LogoutView
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('index22/', views.test_func ,name='testfunc'),
     path('',views.home_view,name=''),
     path('afterlogin', views.afterlogin_view,name='afterlogin'),
     path('logout', LogoutView.as_view(template_name='ecom/logout.html'),name='logout'),
@@ -33,6 +27,8 @@ urlpatterns = [
     path('admin-add-product', views.admin_add_product_view,name='admin-add-product'),
     path('delete-product/<int:pk>', views.delete_product_view,name='delete-product'),
     path('update-product/<int:pk>', views.update_product_view,name='update-product'),
+    path('product/<int:product_id>/', views.product_details, name='product-details'),
+
 
     path('admin-view-booking', views.admin_view_booking_view,name='admin-view-booking'),
     path('delete-order/<int:pk>', views.delete_order_view,name='delete-order'),

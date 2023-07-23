@@ -45,15 +45,16 @@
 <div class="container">
   <div class="panel panel-danger">
     <div class="panel-heading">
-      <h6 class="panel-title">Total Products</h6>
+      <h6 class="panel-title">Total Destinations/Packages Available </h6>
     </div>
     <table class="table table-hover table-bordered" id="dev-table">
       <thead>
         <tr>
           <th>Name</th>
           <th>Image</th>
-          <th>Price</th>
-          <th>Description</th>
+          <th>Cost of visit</th>
+          <th>Short Description</th>
+          <th>Detailed Description</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -64,14 +65,15 @@
         <td> {{p.name}}</td>
         <td> <img src="{% static p.product_image.url %}" alt="Profile Pic" height="40px" width="40px" /></td>
         <td>{{p.price}}</td>
-        <td>{{p.description}}</td>
+        <td>{{p.short_description}}</td>
+        <td>{{p.detailed_description}}</td>
         <td><a class="btn btn-primary btn-xs" href="{% url 'update-product' p.id  %}"><span class="glyphicon glyphicon-edit"></span></a>
           <a class="btn btn-danger btn-xs" href="{% url 'delete-product' p.id  %}"><span class="glyphicon glyphicon-trash"></span></a></td>
 
       </tr>
       {%else%}
       <br><br><br>
-      <h1>No Products!!</h1>
+      <h1>No Destinations Available!</h1>
       {% endif %}
       {% endfor %}
     </table>
