@@ -6,6 +6,7 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required,user_passes_test
 from django.contrib import messages
 from django.conf import settings
+from .forms import SubCategoryForm
 
 
 def test_func(request):
@@ -32,7 +33,26 @@ def product_details(request, product_id):
     product = get_object_or_404(Product, pk=product_id)
     return render(request, 'ecom/product_details.html', {'product': product})
 
-    
+
+#Add sub destinations
+
+
+
+def add_subcategory(request, product_id):
+    product = Product.objects.get(pk=product_id)
+
+    if request.method == 'POST':
+        form = SubCategoryForm(request.POST, request.FILES)
+        if form.is_valid():
+            subcategory = form.save(commit=False)
+            subcategory.product = product
+            subcategory.save()
+            return redirect('product-details', product_id=product_id)  # Redirect to Product Details page
+    else:
+        form = SubCategoryForm()
+
+    return render(request, 'ecom/add_subcategory.html', {'form': form, 'product': product})
+
 
 
 #for showing login button for admin(by sumit)

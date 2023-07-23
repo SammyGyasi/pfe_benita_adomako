@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from . import models
-from .models import Product, SupportImage
+from .models import Product, SupportImage,SubCategory
 
 
 class CustomerUserForm(forms.ModelForm):
@@ -32,6 +32,17 @@ class ProductForm(forms.ModelForm):
         model = Product
         fields = ['name', 'product_image', 'price', 'short_description','detailed_description','support_images']
 
+
+#Sub_category //Sub packages 
+
+class SubCategoryForm(forms.ModelForm):
+    class Meta:
+        model = SubCategory
+        fields = ['sub_name', 'sub_product_image1', 'sub_product_image2', 'sub_product_image3', 'detailed_description']
+
+    sub_product_image1 = forms.ImageField()
+    sub_product_image2 = forms.ImageField(required=False)
+    sub_product_image3 = forms.ImageField(required=False)
 
 
 

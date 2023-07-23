@@ -32,7 +32,18 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+    
 
+class SubCategory(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='subcategories')
+    sub_name = models.CharField(max_length=40)
+    sub_product_image1 = models.ImageField(upload_to='sub_product_image/')
+    sub_product_image2 = models.ImageField(upload_to='sub_product_image/', null=True, blank=True)
+    sub_product_image3 = models.ImageField(upload_to='sub_product_image/', null=True, blank=True)
+    detailed_description = models.CharField(max_length=2000)
+
+    def __str__(self):
+        return f"{self.sub_name} (Product: {self.product.name})"
 
 class Orders(models.Model):
     STATUS =(
