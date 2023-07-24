@@ -49,7 +49,7 @@ class SubCategory(models.Model):
 class  Services(models.Model):
     name = models.CharField(max_length=40)
     service_image = models.ImageField(upload_to='service_image/', null=True, blank=True)
-    description = models.CharField(max_length=100)
+    description = models.CharField(max_length=300)
     
     def __str__(self):
         return self.name
