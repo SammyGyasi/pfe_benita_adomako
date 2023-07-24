@@ -49,7 +49,7 @@
   </div>
 </div>
 
-<!-- Rest of your content -->
+<!-- Destinations Start -->
 
 <div class="container py-5">
   <h1 class="text-center mb-5">Available Destinations(Packages)</h1>
@@ -82,6 +82,67 @@
     {% endif %}
   </div>
 </div>
+
+<!-- Destinations End -->
+
+
+<!--Services Start  -->
+
+<div class="container py-5">
+  <h1 class="text-center mb-5">Available Services</h1>
+  <div class="row">
+    {% if services %}
+      {% for s in services %}
+      <div class="col-md-4 mb-1">
+        <div class="card h-100 shadow service-card">
+          <div class="service-icon-container py-2">
+            <img class="card-img-top service-icon" src="{% static s.service_image.url %}" alt="Service Icon">
+          </div>
+          <div class="card-body">
+            <h5 class="card-title text-center">{{ s.name }}</h5>
+            <p class="card-text">{{ s.description }}</p>
+          </div>
+          <div class="card-footer d-flex justify-content-between align-items-center">
+            <div class="btn-group">
+              {% comment %} <a href="{% url 'product-details' p.id %}" class="btn btn-sm btn-outline-primary">Read More</a>   {% endcomment %}
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    {% else %}
+      <div class="col-md-12">
+        <h3 class="text-center">No Search Found</h3>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<style>
+  /* CSS to style the service icon */
+  .service-icon-container {
+    margin-top: 12px;
+    margin-bottom: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60px; /* Adjust the height as needed */
+  }
+
+  .service-icon {
+    max-height: 50px; /* Set the maximum height for the image */
+    max-width: 20%; /* Ensure the image scales proportionally */
+  }
+
+  /* CSS to add the zoom-out effect when the card is hovered */
+  .service-card:hover {
+    transform: scale(0.9); /* Adjust the scale factor to control the zoom-out effect */
+    transition: transform 0.9s; /* Add a smooth transition effect */
+  }
+</style>
+
+<!--Services End -->
+
 
 
 <!-- Review Section -->
@@ -189,7 +250,7 @@
           <div class="form-group">
             <textarea class="form-control" rows="5" placeholder="Message"></textarea>
           </div>
-          <input type="submit" class="btn btn-primary" value="Send Message">
+          <input type="submit" class="btn btn-warning" value="Send Message">
         </form>
       </div>
     </div>

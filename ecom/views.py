@@ -7,14 +7,21 @@ from django.contrib.auth.decorators import login_required,user_passes_test
 from django.contrib import messages
 from django.conf import settings
 from .forms import SubCategoryForm
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Product, SubCategory  # Add this line to import the Subcategory model
+
 
 
 def test_func(request):
     return render(request,'ecom/index22.html')
-    
+
+from .models import Services
+
 
 def home_view(request):
     products=models.Product.objects.all()
+    services = Services.objects.all()
+
     if 'product_ids' in request.COOKIES:
         product_ids = request.COOKIES['product_ids']
         counter=product_ids.split('|')
@@ -23,7 +30,13 @@ def home_view(request):
         product_count_in_cart=0
     if request.user.is_authenticated:
         return HttpResponseRedirect('afterlogin')
-    return render(request,'ecom/index.html',{'products':products,'product_count_in_cart':product_count_in_cart})
+    return render(request, 'ecom/index.html', {
+        'products': products,
+        'services': services,
+        'product_count_in_cart': product_count_in_cart
+    })
+
+
 
 # views.py
 from django.shortcuts import render, get_object_or_404
@@ -52,6 +65,23 @@ def add_subcategory(request, product_id):
         form = SubCategoryForm()
 
     return render(request, 'ecom/add_subcategory.html', {'form': form, 'product': product})
+
+
+
+#Delete Subcategory 
+
+
+def delete_subcategory(request, subcategory_id):
+    subcategory = get_object_or_404(SubCategory, id=subcategory_id)
+
+    if request.method == 'POST':
+        # Delete the sub-category if the request is a POST request
+        subcategory.delete()
+        # Redirect back to the product details page after deletion
+        return redirect('product-details', product_id=subcategory.product.id)
+
+    # If the request is not a POST request, render a confirmation page
+    return render(request, 'ecom/delete_subcategory.html', {'subcategory': subcategory})
 
 
 
@@ -163,6 +193,12 @@ def admin_products_view(request):
     products=models.Product.objects.all()
     return render(request,'ecom/admin_products.html',{'products':products})
 
+# admin view the service
+@login_required(login_url='adminlogin')
+def admin_services_view(request):
+    services=models.Services.objects.all()
+    return render(request,'ecom/admin_services.html',{'services':services})
+
 
 # admin add product by clicking on floating button
 @login_required(login_url='adminlogin')
@@ -175,12 +211,30 @@ def admin_add_product_view(request):
         return HttpResponseRedirect('admin-products')
     return render(request,'ecom/admin_add_products.html',{'productForm':productForm})
 
+@login_required(login_url='adminlogin')
+def admin_add_service_view(request):
+    servicesForm=forms.ServicesForm()
+    if request.method=='POST':
+        servicesForm=forms.ServicesForm(request.POST, request.FILES)
+        if  servicesForm.is_valid():
+            servicesForm.save()
+        return HttpResponseRedirect('admin-services')
+    return render(request,'ecom/admin_add_services.html',{'servicesForm':servicesForm})
+
+
+
 
 @login_required(login_url='adminlogin')
 def delete_product_view(request,pk):
     product=models.Product.objects.get(id=pk)
     product.delete()
     return redirect('admin-products')
+
+@login_required(login_url='adminlogin')
+def delete_service_view(request,pk):
+    service=models.Services.objects.get(id=pk)
+    service.delete()
+    return redirect('admin-services')
 
 
 @login_required(login_url='adminlogin')
@@ -193,6 +247,18 @@ def update_product_view(request,pk):
             productForm.save()
             return redirect('admin-products')
     return render(request,'ecom/admin_update_product.html',{'productForm':productForm})
+
+@login_required(login_url='adminlogin')
+def update_service_view(request,pk):
+    service=models.Services.objects.get(id=pk)
+    servicesForm=forms.ServicesForm(instance=service)
+    if request.method=='POST':
+        servicesForm=forms.ProductForm(request.POST,request.FILES,instance=service)
+        if servicesForm.is_valid():
+            servicesForm.save()
+            return redirect('admin-services')
+    return render(request,'ecom/admin_update_service.html',{'servicesForm':servicesForm})
+
 
 
 @login_required(login_url='adminlogin')
@@ -253,7 +319,8 @@ def search_view(request):
     word="Searched Result :"
 
     if request.user.is_authenticated:
-        return render(request,'ecom/customer_home.html',{'products':products,'word':word,'product_count_in_cart':product_count_in_cart})
+        user_name = request.user.username
+        return render(request, 'ecom/customer_home.html', {'products': products, 'word': word, 'product_count_in_cart': product_count_in_cart, 'user_name': user_name})
     return render(request,'ecom/index.html',{'products':products,'word':word,'product_count_in_cart':product_count_in_cart})
 
 
@@ -365,6 +432,8 @@ def send_feedback_view(request):
 @login_required(login_url='customerlogin')
 @user_passes_test(is_customer)
 def customer_home_view(request):
+    user_name = request.user.username
+    services =models.Services.objects.all()
     products=models.Product.objects.all()
     if 'product_ids' in request.COOKIES:
         product_ids = request.COOKIES['product_ids']
@@ -372,7 +441,7 @@ def customer_home_view(request):
         product_count_in_cart=len(set(counter))
     else:
         product_count_in_cart=0
-    return render(request,'ecom/customer_home.html',{'products':products,'product_count_in_cart':product_count_in_cart})
+    return render(request, 'ecom/customer_home.html', {'products': products,'services': services,  'product_count_in_cart': product_count_in_cart, 'user_name': user_name})
 
 
 
@@ -475,13 +544,14 @@ def payment_success_view(request):
 def my_order_view(request):
     
     customer=models.Customer.objects.get(user_id=request.user.id)
+    user_name = request.user.username
     orders=models.Orders.objects.all().filter(customer_id = customer)
     ordered_products=[]
     for order in orders:
         ordered_product=models.Product.objects.all().filter(id=order.product.id)
         ordered_products.append(ordered_product)
 
-    return render(request,'ecom/my_order.html',{'data':zip(ordered_products,orders)})
+    return render(request,'ecom/my_order.html',{'data':zip(ordered_products,orders),'user_name':user_name})
  
 
 
@@ -548,8 +618,9 @@ def download_invoice_view(request,orderID,productID):
 @login_required(login_url='customerlogin')
 @user_passes_test(is_customer)
 def my_profile_view(request):
+    user_name = request.user.username
     customer=models.Customer.objects.get(user_id=request.user.id)
-    return render(request,'ecom/my_profile.html',{'customer':customer})
+    return render(request,'ecom/my_profile.html',{'customer':customer,'user_name':user_name})
 
 
 @login_required(login_url='customerlogin')

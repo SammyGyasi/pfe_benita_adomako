@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from . import models
-from .models import Product, SupportImage,SubCategory
+from .models import Product, SupportImage,SubCategory,Services
 
 
 class CustomerUserForm(forms.ModelForm):
@@ -43,6 +43,15 @@ class SubCategoryForm(forms.ModelForm):
     sub_product_image1 = forms.ImageField()
     sub_product_image2 = forms.ImageField(required=False)
     sub_product_image3 = forms.ImageField(required=False)
+
+
+#Forms Side
+
+class ServicesForm(forms.ModelForm):
+    class Meta:
+        model = Services
+        fields = ['name', 'service_image', 'description']
+
 
 
 

@@ -24,10 +24,15 @@ urlpatterns = [
     path('update-customer/<int:pk>', views.update_customer_view,name='update-customer'),
 
     path('admin-products', views.admin_products_view,name='admin-products'),
+    path('admin-services', views.admin_services_view,name='admin-services'),
     path('add-subcategory/<int:product_id>/', views.add_subcategory, name='add-subcategory'),
+    path('delete-subcategory/<int:subcategory_id>/', views.delete_subcategory, name='delete-subcategory'),
     path('admin-add-product', views.admin_add_product_view,name='admin-add-product'),
+    path('admin-add-service', views.admin_add_service_view,name='admin-add-service'),
     path('delete-product/<int:pk>', views.delete_product_view,name='delete-product'),
+    path('delete-service/<int:pk>', views.delete_service_view,name='delete-service'),
     path('update-product/<int:pk>', views.update_product_view,name='update-product'),
+    path('update-service/<int:pk>', views.update_service_view,name='update-service'),
     path('product/<int:product_id>/', views.product_details, name='product-details'),
 
 

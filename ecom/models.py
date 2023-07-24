@@ -44,6 +44,15 @@ class SubCategory(models.Model):
 
     def __str__(self):
         return f"{self.sub_name} (Product: {self.product.name})"
+    
+
+class  Services(models.Model):
+    name = models.CharField(max_length=40)
+    service_image = models.ImageField(upload_to='service_image/', null=True, blank=True)
+    description = models.CharField(max_length=100)
+    
+    def __str__(self):
+        return self.name
 
 class Orders(models.Model):
     STATUS =(

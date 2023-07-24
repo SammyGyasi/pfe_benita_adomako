@@ -62,7 +62,9 @@
 </style>
 
 </head>
-
+<!--
+written By : sumit kumar
+-->
 <br><br><br><br>
 
 <div class="container">
@@ -73,9 +75,9 @@
     <table class="table table-hover table-bordered" id="dev-table">
       <thead>
         <tr>
-          <th>Destination Name </th>
+          <th>Name</th>
           <th>Image</th>
-          <th>Cost Of Visit</th>
+          <th>Price</th>
           <th>Description</th>
           <th>Action</th>
 
@@ -95,7 +97,7 @@
       </tr>
       {%else%}
       <br><br><br>
-      <h1>no destinations</h1>
+      <h1>no products</h1>
       {% endif %}
       {% endfor %}
     </table>
@@ -104,7 +106,7 @@
 <br><br><br>
 <div style="text-align: center;">
   <button class="btn btn-danger btn-lg">Total ${{total}}</button>
-  <a href="/customer-address"><button class="btn btn-success btn-lg" ><span>Make payment </span></button></a>
+  <a href="/customer-address"><button class="btn btn-success btn-lg" ><span>Purchase </span></button></a>
 </div>
 
 
