@@ -47,6 +47,14 @@ def product_details(request, product_id):
     return render(request, 'ecom/product_details.html', {'product': product})
 
 
+@login_required(login_url='customerlogin')
+def product_details_customer(request, product_id):
+    product = get_object_or_404(Product, pk=product_id)
+    return render(request, 'ecom/product_details_customer.html', {'product': product})
+
+
+
+
 #Add sub destinations
 
 
@@ -604,7 +612,7 @@ def download_invoice_view(request,orderID,productID):
         'productName':product.name,
         'productImage':product.product_image,
         'productPrice':product.price,
-        'productDescription':product.description,
+        'productDescription':product.short_description,
 
 
     }

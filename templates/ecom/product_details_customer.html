@@ -1,0 +1,159 @@
+{% extends 'ecom/customer_base.html' %}
+{% load static %}
+
+{% block content %}
+
+<head>
+  <!-- Your existing CSS and JS imports -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  
+</head>
+
+<div class="container-fluid p-0">
+  <!-- Hero Banner (Product Image) -->
+  <div class="hero-banner">
+    <img src="{% static product.product_image.url %}" alt="{{ product.name }}" class="img-fluid">
+  </div>
+</div>
+
+<div class="container my-5">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h1 class="panel-title">{{ product.name }} Details</h1>
+        </div>
+        <div class="panel-body">
+          <p class="text-justify"><strong>Cost of Visit:</strong> <span class="highlight-price">${{ product.price }}</span></p>
+          <p class="text-justify"><strong>Short Description:</strong> {{ product.short_description }}</p>
+          <p class="text-justify"><strong>Detailed Description:</strong> {{ product.detailed_description }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="panel panel-success">
+        <div class="panel-heading">
+          <h3 class="panel-title">Locations/Attractions</h3>
+        </div>
+        <div class="panel-body">
+          {% for subcategory in product.subcategories.all %}
+            <div class="card mb-3">
+              <div class="row no-gutters">
+                <div class="col-md-4">
+                  <img src="{% static subcategory.sub_product_image.url %}" alt="{{ subcategory.sub_name }}" class="img-thumbnail">
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ subcategory.sub_name }}</h5>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal{{ subcategory.id }}">
+                      View Details
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% empty %}
+            <p>No subcategories available for this product.</p>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Google Maps Section -->
+<div id="google-map" style="height: 400px; width: 100%;"></div>
+
+{% for subcategory in product.subcategories.all %}
+<div class="modal fade" id="modal{{ subcategory.id }}" tabindex="-1" role="dialog" aria-labelledby="modal{{ subcategory.id }}Label" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal{{ subcategory.id }}Label">{{ subcategory.sub_name }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-6">
+            <img src="{% static subcategory.sub_product_image.url %}" alt="{{ subcategory.sub_name }}" class="img-fluid">
+          </div>
+          <div class="col-md-6">
+            <p>{{ subcategory.detailed_description }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+<!-- Google Maps JavaScript API -->
+<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&callback=initMap" async defer></script>
+
+<!-- Custom script for Google Maps -->
+<script>
+  function initMap() {
+    // Specify the coordinates of the location to show on the map
+    var location = { lat: 40.7128, lng: -74.0060 };
+
+    // Create a map centered at the specified location
+    var map = new google.maps.Map(document.getElementById("google-map"), {
+      zoom: 14,
+      center: location,
+    });
+
+    // Create a marker at the specified location
+    var marker = new google.maps.Marker({
+      position: location,
+      map: map,
+      title: "{{ product.name }}",
+    });
+  }
+</script>
+
+<style>
+  /* Additional CSS for the hero banner */
+  .hero-banner {
+    position: relative;
+    width: 100%;
+    max-height: 300px; /* Adjust the height as needed */
+    overflow: hidden;
+  }
+
+  .hero-banner img {
+    width: 100%;
+    height: auto;
+  }
+
+  /* Custom CSS for product details */
+  .panel-body p {
+    margin-bottom: 10px;
+  }
+
+  .highlight-price {
+    font-size: 24px;
+    color: yellow; /* Blue color, you can change it to any other color */
+    font-weight: bold;
+  }
+
+  /* Justify text for product details */
+  .text-justify {
+    text-align: justify;
+  }
+
+  /* Additional CSS for card layout */
+  .card {
+    transition: transform 0.3s;
+  }
+
+  .card:hover {
+    transform: scale(1.03);
+  }
+</style>
+
+{% endblock content %}

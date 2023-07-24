@@ -34,6 +34,7 @@ urlpatterns = [
     path('update-product/<int:pk>', views.update_product_view,name='update-product'),
     path('update-service/<int:pk>', views.update_service_view,name='update-service'),
     path('product/<int:product_id>/', views.product_details, name='product-details'),
+    path('product-details_customer/<int:product_id>/', views.product_details_customer, name='product-details_customer'),
 
 
     path('admin-view-booking', views.admin_view_booking_view,name='admin-view-booking'),

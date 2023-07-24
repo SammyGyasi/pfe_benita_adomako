@@ -57,9 +57,9 @@ class  Services(models.Model):
 class Orders(models.Model):
     STATUS =(
         ('Pending','Pending'),
-        ('Order Confirmed','Order Confirmed'),
-        ('Out for Delivery','Out for Delivery'),
-        ('Delivered','Delivered'),
+        ('Confirmed',' Confirmed'),
+        ('Tour Started','Tour Started'),
+        ('Tour Ended','Tour Ended'),
     )
     customer=models.ForeignKey('Customer', on_delete=models.CASCADE,null=True)
     product=models.ForeignKey('Product',on_delete=models.CASCADE,null=True)
