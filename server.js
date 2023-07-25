@@ -1,46 +1,48 @@
-// Server-side (Node.js with Express)
-
 const express = require('express');
 const nodemailer = require('nodemailer');
-const bodyParser = require('body-parser');
-
+const cors = require('cors'); // Import the cors module
 const app = express();
-app.use(bodyParser.json());
+const port = 3000; // Replace with your desired port number
 
+app.use(express.json());
+app.use(cors()); // Enable CORS
+
+// Create a route to handle the email sending
 app.post('/send-email', (req, res) => {
-  const { recipient, subject, body } = req.body;
+  const { name, email, message } = req.body;
 
-  // Create a Nodemailer transporter
+  console.log('Received data:', name, email, message);
+
+  // Create a Nodemailer transporter using your email service provider's credentials
   const transporter = nodemailer.createTransport({
-    service: 'Gmail',
+    service: 'gmail',
     auth: {
-      user: 'gyasisamuelkobina22@gmail.com', // Replace with your Gmail email address
-      pass: 'Power4026', // Replace with your Gmail password
-    },
+      user: 'gyasisamuelkobina22@gmail.com',
+      pass: 'hpwdczghjbabrswt'
+    }
   });
 
-  // Set up email data
+  // Define the email options
   const mailOptions = {
     from: 'your-email@gmail.com',
-    to: recipient,
-    subject: subject,
-    text: body,
+    to: 'adomakobenita@gmail.com', // Replace with your email address
+    subject: 'New Contact Form Submission From Explore Ghana',
+    text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`
   };
 
   // Send the email
-  transporter.sendMail(mailOptions, (error, info) => {
+  transporter.sendMail(mailOptions, function(error, info) {
     if (error) {
-      console.error('Error sending email:', error);
-      res.status(500).send('Error sending email');
+      console.error(error);
+      res.status(500).send('Failed to send email');
     } else {
-      console.log('Email sent:', info.response);
-      res.status(200).send('Email sent successfully');
+      console.log('Email sent: ' + info.response);
+      res.sendStatus(200);
     }
   });
 });
 
 // Start the server
-const port = 3000;
 app.listen(port, () => {
-  console.log(`Server started on http://localhost:${port}`);
+  console.log(`Server running on port ${port}`);
 });

@@ -406,6 +406,34 @@ def cart_view(request):
     return render(request,'ecom/cart.html',{'products':products,'total':total,'product_count_in_cart':product_count_in_cart})
 
 
+
+@login_required(login_url='customerlogin')
+def cart_client_view(request):
+    #for cart counter
+    if 'product_ids' in request.COOKIES:
+        product_ids = request.COOKIES['product_ids']
+        counter=product_ids.split('|')
+        product_count_in_cart=len(set(counter))
+    else:
+        product_count_in_cart=0
+
+    # fetching product details from db whose id is present in cookie
+    products=None
+    total=0
+    if 'product_ids' in request.COOKIES:
+        product_ids = request.COOKIES['product_ids']
+        if product_ids != "":
+            product_id_in_cart=product_ids.split('|')
+            products=models.Product.objects.all().filter(id__in = product_id_in_cart)
+
+            #for total price shown in cart
+            for p in products:
+                total=total+p.price
+    return render(request,'ecom/cart_client.html',{'products':products,'total':total,'product_count_in_cart':product_count_in_cart})
+
+
+
+
 def remove_from_cart_view(request,pk):
     #for counter in cart
     if 'product_ids' in request.COOKIES:
@@ -676,17 +704,30 @@ def edit_profile_view(request):
 def aboutus_view(request):
     return render(request,'ecom/aboutus.html')
 
+
+from .forms import ContactusForm
+
 def contactus_view(request):
-    sub = forms.ContactusForm()
-    if request.method == 'POST':
-        sub = forms.ContactusForm(request.POST)
-        if sub.is_valid():
-            email = sub.cleaned_data['Email']
-            name=sub.cleaned_data['Name']
-            message = sub.cleaned_data['Message']
-            send_mail(str(name)+' || '+str(email),message, settings.EMAIL_HOST_USER, settings.EMAIL_RECEIVING_USER, fail_silently = False)
-            return render(request, 'ecom/contactussuccess.html')
-    return render(request, 'ecom/contactus.html', {'form':sub})
+    form = ContactusForm()
+     
+    context = {
+        'form': form
+    }
+    
+    return render(request, 'ecom/contactus.html', context)
+
+
+# def contactus_view(request):
+#     sub = forms.ContactusForm()
+#     if request.method == 'POST':
+#         sub = forms.ContactusForm(request.POST)
+#         if sub.is_valid():
+#             email = sub.cleaned_data['Email']
+#             name=sub.cleaned_data['Name']
+#             message = sub.cleaned_data['Message']
+#             send_mail(str(name)+' || '+str(email),message, settings.EMAIL_HOST_USER, settings.EMAIL_RECEIVING_USER, fail_silently = False)
+#             return render(request, 'ecom/contactussuccess.html')
+#     return render(request, 'ecom/contactus.html', {'form':sub})
 
 
 
@@ -697,17 +738,17 @@ from django.http import JsonResponse
 from django.core.mail import send_mail
 from django.conf import settings
 
-def send_feedback_email(request):
-    if request.method == 'POST':
-        recipient = request.POST.get('recipient', '')
-        subject = request.POST.get('subject', '')
-        body = request.POST.get('body', '')
+# def send_feedback_email(request):
+#     if request.method == 'POST':
+#         recipient = request.POST.get('recipient', '')
+#         subject = request.POST.get('subject', '')
+#         body = request.POST.get('body', '')
 
-        # Send the email using Django's send_mail function
-        send_mail(subject, body, settings.EMAIL_HOST_USER, [recipient])
+#         # Send the email using Django's send_mail function
+#         send_mail(subject, body, settings.EMAIL_HOST_USER, [recipient])
 
-        # Optionally, you can add a success message or return a JSON response
-        return JsonResponse({'message': 'Email sent successfully'})
-    else:
-        # Handle GET request if needed
-        return JsonResponse({'message': 'Method not allowed'}, status=405)
+#         # Optionally, you can add a success message or return a JSON response
+#         return JsonResponse({'message': 'Email sent successfully'})
+#     else:
+#         # Handle GET request if needed
+#         return JsonResponse({'message': 'Method not allowed'}, status=405)
