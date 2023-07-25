@@ -1,109 +1,57 @@
 
-  <!-- Review Section -->
-  <section class="review py-5" id="review">
+
+    <!-- Main Content Area -->
     <div class="container">
-      <h1 class="heading text-center mb-5">
-        <span>r</span>
-        <span>e</span>
-        <span>v</span>
-        <span>i</span>
-        <span>e</span>
-        <span>w</span>
-      </h1>
-
-      <div class="swiper-container review-slider">
-        <div class="swiper-wrapper">
-          <div class="swiper-slide">
-            <div class="box bg-white p-4 rounded shadow">
-              <img src="Images/img1.jpeg" alt="" class="img-fluid mb-3 rounded-circle">
-              <h3 class="mb-3">Charles Leo</h3>
-              <p class="mb-3">Wow! What an incredible experience I had on my trip with your tourism site! From the moment I arrived, I was greeted with warmth and hospitality. The well-organized itinerary allowed me to explore the best of Ghana, from the bustling cities to the serene landscapes. The accommodations were comfortable, and the food was simply delicious, offering a true taste of Ghanaian cuisine. I highly recommend this tourism site to anyone seeking a well-rounded and immersive travel experience. Thank you for an amazing journey!</p>
-              <div class="stars mb-3">
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="far fa-star"></i>
-              </div>
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-4">
+                <div class="sidebar">
+                    <img src="{% static 'images/about.jpg' %}" alt="Travel Photo">
+                    <p>Welcome to our Tourism Website! We are dedicated to providing you with the best travel
+                        experiences and showcasing the most beautiful destinations around the world.</p>
+                </div>
             </div>
-          </div>
-          <!-- Add other swiper slides for other reviews -->
+
+            <!-- Main Content -->
+            <div class="col-md-8">
+                <h2>About Us</h2>
+                <p>At Tourism Website, we believe that travel is not just about visiting places, but also about creating
+                    memories that last a lifetime. That's why we go the extra mile to curate unique and unforgettable
+                    travel itineraries for every traveler.</p>
+                <p>Explore our website to discover amazing destinations, travel tips, and exciting tour packages. We
+                    can't wait to be a part of your next adventure!</p>
+
+                <!-- Statistics Section -->
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4>Number of Visitors</h4>
+                        <p>500,000+</p>
+                    </div>
+                    <div class="col-sm-6">
+                        <h4>Number of Destinations</h4>
+                        <p>200+</p>
+                    </div>
+                </div>
+
+                <!-- Our Staff Section -->
+                <h2>Our Staff</h2>
+                <p>Meet the passionate team behind Tourism Website. Our dedicated staff is committed to providing you with
+                    exceptional travel experiences and top-notch customer service. From travel experts to customer support,
+                    we work together to make your journey unforgettable.</p>
+                <!-- Add staff member information here -->
+                <div class="row">
+                    <div class="col-md-4">
+                        <img src="{% static 'images/staff1.jpg' %}" alt="Staff 1">
+                        <h4>John Doe</h4>
+                        <p>Travel Expert</p>
+                    </div>
+                    <div class="col-md-4">
+                        <img src="{% static 'images/staff2.jpg' %}" alt="Staff 2">
+                        <h4>Jane Smith</h4>
+                        <p>Customer Support</p>
+                    </div>
+                    <!-- Add more staff members as needed -->
+                </div>
+            </div>
         </div>
-        <!-- Add pagination for the review slider -->
-        <div class="swiper-pagination"></div>
-      </div>
     </div>
-  </section>
-  <!-- End of Review Section -->
-
-  <!-- Contact Section -->
-  <section class="contact py-5" id="contact">
-    <div class="container">
-      <h1 class="heading text-center mb-5">
-        <span>c</span>
-        <span>o</span>
-        <span>n</span>
-        <span>t</span>
-        <span>a</span>
-        <span>c</span>
-        <span>t</span>
-      </h1>
-
-      <div class="row">
-        <div class="col-md-6">
-          <div class="image mb-4">
-            <img src="Images/contact-img.jpeg" alt="" class="img-fluid">
-          </div>
-        </div>
-        <div class="col-md-6">
-          <form action="">
-            <div class="form-group">
-              <input type="text" class="form-control" placeholder="Name">
-            </div>
-            <div class="form-group">
-              <input type="email" class="form-control" placeholder="Email">
-            </div>
-            <div class="form-group">
-              <input type="number" class="form-control" placeholder="Phone Number">
-            </div>
-            <div class="form-group">
-              <input type="text" class="form-control" placeholder="Subject">
-            </div>
-            <div class="form-group">
-              <textarea class="form-control" rows="5" placeholder="Message"></textarea>
-            </div>
-            <input type="submit" class="btn btn-primary" value="Send Message">
-          </form>
-        </div>
-      </div>
-    </div>
-  </section>
-  <!-- End of Contact Section -->
-
-  <!-- Add Bootstrap JS and jQuery links -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-  <!-- Add Swiper JS link (for review slider) -->
-  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-
-  <!-- Initialize Swiper for review slider -->
-  <script>
-    var reviewSlider = new Swiper('.review-slider', {
-      slidesPerView: 1,
-      spaceBetween: 30,
-      loop: true,
-      autoplay: {
-        delay: 3000,
-      },
-      pagination: {
-        el: '.swiper-pagination',
-        clickable: true,
-      },
-    });
-  </script>
-
-</body>
-
-</html>

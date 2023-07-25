@@ -10,7 +10,8 @@ urlpatterns = [
     path('afterlogin', views.afterlogin_view,name='afterlogin'),
     path('logout', LogoutView.as_view(template_name='ecom/logout.html'),name='logout'),
     path('aboutus', views.aboutus_view),
-    path('contactus', views.contactus_view,name='contactus'),
+    path('contactus/', views.send_feedback_email,name='contactus'),
+    #path('contactus/', views.submit_feedback, name='contactus'),
     path('search', views.search_view,name='search'),
     path('send-feedback', views.send_feedback_view,name='send-feedback'),
     path('view-feedback', views.view_feedback_view,name='view-feedback'),
@@ -35,6 +36,7 @@ urlpatterns = [
     path('update-service/<int:pk>', views.update_service_view,name='update-service'),
     path('product/<int:product_id>/', views.product_details, name='product-details'),
     path('product-details_customer/<int:product_id>/', views.product_details_customer, name='product-details_customer'),
+    path('product-details_visitor/<int:product_id>/', views.product_details_visitor, name='product-details_visitor'),
 
 
     path('admin-view-booking', views.admin_view_booking_view,name='admin-view-booking'),

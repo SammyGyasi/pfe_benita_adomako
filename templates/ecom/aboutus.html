@@ -5,26 +5,202 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Benita Travels</title>
+  <title>Explore Ghana | Benita Travels</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
   <style media="screen">
-    .footer{
+    .footer {
       position: fixed;
+    }
+
+    /* Custom CSS for the hero section */
+    .hero-section {
+      background-image: url('{% static "images/hero-image.jpg" %}');
+      background-size: cover;
+      background-position: center;
+      padding: 200px 0;
+      /* Adjust the padding to control the height of the hero section */
+      color: #fff;
+      text-align: center;
+    }
+
+    .hero-section h1 {
+      font-size: 48px;
+      font-weight: bold;
+      margin-bottom: 30px;
+    }
+
+    .hero-section p {
+      font-size: 20px;
+      margin-bottom: 30px;
+    }
+
+    /* Custom CSS for number animation */
+    .number-counter {
+      font-size: 40px;
+      font-weight: bold;
+      color: #007bff; /* You can adjust the color as desired */
     }
   </style>
 </head>
 
 <body style="background-color:#f7f7f7;">
-  {%if request.user.is_authenticated%}
+  {% if request.user.is_authenticated %}
     {% include "ecom/customer_navbar.html" %}
-  {%else%}
+  {% else %}
     {% include "ecom/navbar.html" %}
-  {%endif%}
+  {% endif %}
   <br><br><br>
 
+  <div class="hero-section">
+    <div class="container">
+      <h1>Explore Ghana</h1>
+      <p>Uncover the Beauty of West Africa</p>
+      <a class="btn btn-warning" href="#about-section">Learn More</a>
+    </div>
+  </div>
 
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+  <!-- Main Content Area -->
+  <div class="container pt-5">
+    <div class="row">
+      <!-- Main Content -->
+      <div class="col-md-12">
+        <div id="about-section">
+          <h2 class=" text-center">About Us</h2>
+          <p class ="text-justify">
+          Welcome to Explore Ghana, your ultimate destination for discovering the hidden gems and breathtaking beauty of Ghana! Our website is designed to take you on an unforgettable journey through the vibrant culture, rich history, and stunning landscapes of this diverse West African nation.
+
+          Whether you're an intrepid adventurer, a culture enthusiast, or simply seeking relaxation amidst nature's wonders, Explore Ghana has something special for everyone. From the bustling streets of Accra to the tranquil beaches of Cape Coast, we have curated a collection of the most captivating destinations across the country.
+
+          Discover the ancient mysteries of the UNESCO World Heritage sites, explore the lush rainforests teeming with exotic wildlife, and immerse yourself in the warm hospitality of Ghana's friendly locals. Our team of passionate travel experts has handpicked each experience to ensure that your trip is nothing short of extraordinary.
+
+          Are you a food lover? Ghana's cuisine is a delightful fusion of flavors that will tantalize your taste buds. Indulge in the famous jollof rice, try the mouthwatering street snacks, and savor the succulent grilled tilapia by the beachside.
+
+          At Explore Ghana, we believe in responsible and sustainable tourism. We work closely with local communities to promote eco-friendly practices and support initiatives that benefit both travelers and the places they visit.
+
+          Whether you're planning a solo adventure, a family getaway, or a romantic escape, our comprehensive guides, travel tips, and customizable itineraries will help you create a memorable journey tailored to your preferences.
+
+          Join us on this unforgettable expedition to Explore Ghana's rich heritage, breathtaking landscapes, and vibrant cultural tapestry. Get ready to fall in love with this captivating country and create memories that will last a lifetime.
+
+          Start your journey with Explore Ghana today and embark on an experience that will leave you in awe of this beautiful nation. Let's discover the heart and soul of Ghana together!
+        </p>
+        </div>
+
+        <!-- Statistics Section -->
+        <div class="row">
+          <div class="col-sm-6">
+            <h4 class="text-center">Number of Visitors</h4>
+            <p class="number-counter">500,000+</p>
+          </div>
+          <div class="col-sm-6">
+            <h4   class="text-center" >Number of Destinations</h4>
+            <p class="number-counter" id="number-destinations">0</p>
+          </div>
+        </div>
+
+        <section>
+  <div class="row d-flex justify-content-center">
+    <div class="col-md-10 col-xl-8 text-center">
+      <h3 class="mb-4">Our Staff</h3>
+      <p class="mb-4 pb-2 mb-md-5 pb-md-0">
+      Meet Our Dedicated Staff
+      </p>
+    </div>
+  </div>
+
+  <div class="row text-center d-flex align-items-stretch">
+    <div class="col-md-4 mb-5 mb-md-0 d-flex align-items-stretch">
+      <div class="card testimonial-card">
+        <div class="card-up" style="background-color: #9d789b;"></div>
+        <div class="avatar mx-auto bg-white">
+          <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(1).webp"
+            class="rounded-circle img-fluid" />
+        </div>
+        <div class="card-body">
+          <h4 class="mb-4">Maria Smantha</h4>
+          <hr />
+          <p class="dark-grey-text mt-4">
+            <i class="fas fa-quote-left pe-2"></i>Lorem ipsum dolor sit amet eos adipisci,
+            consectetur adipisicing elit.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-5 mb-md-0 d-flex align-items-stretch">
+      <div class="card testimonial-card">
+        <div class="card-up" style="background-color: #7a81a8;"></div>
+        <div class="avatar mx-auto bg-white">
+          <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(2).webp"
+            class="rounded-circle img-fluid" />
+        </div>
+        <div class="card-body">
+          <h4 class="mb-4">Lisa Cudrow</h4>
+          <hr />
+          <p class="dark-grey-text mt-4">
+            <i class="fas fa-quote-left pe-2"></i>Neque cupiditate assumenda in maiores
+            repudi mollitia architecto.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-0 d-flex align-items-stretch">
+      <div class="card testimonial-card">
+        <div class="card-up" style="background-color: #6d5b98;"></div>
+        <div class="avatar mx-auto bg-white">
+          <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(9).webp"
+            class="rounded-circle img-fluid" />
+        </div>
+        <div class="card-body">
+          <h4 class="mb-4">John Smith</h4>
+          <hr />
+          <p class="dark-grey-text mt-4">
+            <i class="fas fa-quote-left pe-2"></i>Delectus impedit saepe officiis ab
+            aliquam repellat rem unde ducimus.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End of Review Section -->
+
+        
+
+        <!-- ... Rest of the content ... -->
+      </div>
+    </div>
+  </div>
+
+  <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
   {% include "ecom/footer.html" %}
-</body>
 
+  <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+  <script>
+    // Number animation function
+    function animateNumber(element, target, duration) {
+      let currentNumber = 0;
+      let step = Math.ceil(target / (duration / 10)); // Divide the target by duration to get the step
+      const timer = setInterval(() => {
+        currentNumber += step;
+        if (currentNumber >= target) {
+          clearInterval(timer);
+          currentNumber = target;
+        }
+        element.textContent = currentNumber.toLocaleString(); // Format the number with commas
+      }, 10);
+    }
+
+    // Call the animation when the element is in the viewport
+    function startNumberAnimation() {
+      const numberDestinationsElement = document.getElementById('number-destinations');
+      if (numberDestinationsElement.getBoundingClientRect().top < window.innerHeight) {
+        animateNumber(numberDestinationsElement, 200, 2000); // Change 200 to the desired number and 2000 to the duration in milliseconds
+      }
+    }
+
+    window.addEventListener('scroll', startNumberAnimation);
+  </script>
+</body>
 
 </html>

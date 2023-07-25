@@ -10,12 +10,18 @@ from .forms import SubCategoryForm
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Product, SubCategory  # Add this line to import the Subcategory model
 
+from .models import Services
+
 
 
 def test_func(request):
     return render(request,'ecom/index22.html')
 
-from .models import Services
+
+
+from django.core.mail import send_mail
+from django.http import JsonResponse
+
 
 
 def home_view(request):
@@ -42,6 +48,7 @@ def home_view(request):
 from django.shortcuts import render, get_object_or_404
 from .models import Product
 
+@login_required(login_url='adminlogin')
 def product_details(request, product_id):
     product = get_object_or_404(Product, pk=product_id)
     return render(request, 'ecom/product_details.html', {'product': product})
@@ -49,9 +56,16 @@ def product_details(request, product_id):
 
 @login_required(login_url='customerlogin')
 def product_details_customer(request, product_id):
+    user_name = request.user.username
     product = get_object_or_404(Product, pk=product_id)
-    return render(request, 'ecom/product_details_customer.html', {'product': product})
+    return render(request, 'ecom/product_details_customer.html', {'product': product,'user_name':user_name})
 
+
+
+#view for product-details customer
+def product_details_visitor(request, product_id):
+    product = get_object_or_404(Product, pk=product_id)
+    return render(request, 'ecom/product_details_visitor.html', {'product': product})
 
 
 
@@ -124,13 +138,15 @@ def is_customer(user):
     return user.groups.filter(name='CUSTOMER').exists()
 
 
-
+from django.contrib import messages
+from django.http import JsonResponse
 #---------AFTER ENTERING CREDENTIALS WE CHECK WHETHER USERNAME AND PASSWORD IS OF ADMIN,CUSTOMER
 def afterlogin_view(request):
     if is_customer(request.user):
         return redirect('customer-home')
     else:
-        return redirect('admin-dashboard')
+        messages.error(request, 'Invalid username or password. Please try again.')
+        return redirect('adminlogin')
 
 #---------------------------------------------------------------------------------
 #------------------------ ADMIN RELATED VIEWS START ------------------------------
@@ -328,7 +344,8 @@ def search_view(request):
 
     if request.user.is_authenticated:
         user_name = request.user.username
-        return render(request, 'ecom/customer_home.html', {'products': products, 'word': word, 'product_count_in_cart': product_count_in_cart, 'user_name': user_name})
+        first_name =request.user.first_name
+        return render(request, 'ecom/customer_home.html', {'products': products, 'word': word, 'product_count_in_cart': product_count_in_cart, 'user_name': user_name,'first_name': first_name})
     return render(request,'ecom/index.html',{'products':products,'word':word,'product_count_in_cart':product_count_in_cart})
 
 
@@ -441,6 +458,7 @@ def send_feedback_view(request):
 @user_passes_test(is_customer)
 def customer_home_view(request):
     user_name = request.user.username
+    first_name = request.user.first_name
     services =models.Services.objects.all()
     products=models.Product.objects.all()
     if 'product_ids' in request.COOKIES:
@@ -449,7 +467,7 @@ def customer_home_view(request):
         product_count_in_cart=len(set(counter))
     else:
         product_count_in_cart=0
-    return render(request, 'ecom/customer_home.html', {'products': products,'services': services,  'product_count_in_cart': product_count_in_cart, 'user_name': user_name})
+    return render(request, 'ecom/customer_home.html', {'products': products,'services': services,  'product_count_in_cart': product_count_in_cart, 'user_name': user_name ,'first_name': first_name})
 
 
 
@@ -669,3 +687,27 @@ def contactus_view(request):
             send_mail(str(name)+' || '+str(email),message, settings.EMAIL_HOST_USER, settings.EMAIL_RECEIVING_USER, fail_silently = False)
             return render(request, 'ecom/contactussuccess.html')
     return render(request, 'ecom/contactus.html', {'form':sub})
+
+
+
+# views.py (Django view)
+
+from django.shortcuts import render
+from django.http import JsonResponse
+from django.core.mail import send_mail
+from django.conf import settings
+
+def send_feedback_email(request):
+    if request.method == 'POST':
+        recipient = request.POST.get('recipient', '')
+        subject = request.POST.get('subject', '')
+        body = request.POST.get('body', '')
+
+        # Send the email using Django's send_mail function
+        send_mail(subject, body, settings.EMAIL_HOST_USER, [recipient])
+
+        # Optionally, you can add a success message or return a JSON response
+        return JsonResponse({'message': 'Email sent successfully'})
+    else:
+        # Handle GET request if needed
+        return JsonResponse({'message': 'Method not allowed'}, status=405)
