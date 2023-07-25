@@ -140,13 +140,13 @@ def is_customer(user):
 
 from django.contrib import messages
 from django.http import JsonResponse
+
 #---------AFTER ENTERING CREDENTIALS WE CHECK WHETHER USERNAME AND PASSWORD IS OF ADMIN,CUSTOMER
 def afterlogin_view(request):
     if is_customer(request.user):
         return redirect('customer-home')
     else:
-        messages.error(request, 'Invalid username or password. Please try again.')
-        return redirect('adminlogin')
+        return redirect('admin-dashboard')
 
 #---------------------------------------------------------------------------------
 #------------------------ ADMIN RELATED VIEWS START ------------------------------

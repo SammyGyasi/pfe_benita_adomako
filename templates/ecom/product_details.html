@@ -48,6 +48,9 @@
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal{{ subcategory.id }}">
                       View Details
                     </button>
+                    <button type="button" class="btn btn-danger" onclick="deleteSubcategory({{ subcategory.id }})">
+                      Delete
+                    </button>
                   </div>
                 </div>
               </div>
@@ -113,6 +116,13 @@
       map: map,
       title: "{{ product.name }}",
     });
+  }
+
+  function deleteSubcategory(subcategoryId) {
+    // Perform the deletion logic here, you can use JavaScript or make an AJAX call to delete the subcategory
+    // For example:
+    // alert("Delete subcategory with ID: " + subcategoryId);
+    // Add your code here to delete the subcategory using JavaScript or AJAX
   }
 </script>
 
